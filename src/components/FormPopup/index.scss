@@ -1,0 +1,53 @@
+.form-popup {
+  position: absolute;
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  border: solid 1px $color-default-black;
+
+  &__name {
+    padding: 16px;
+    position: relative;
+    box-sizing: border-box;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: $color-pattens-blue;
+    }
+  
+    p {
+      text-align: start;
+      margin: 0;
+      font-family: $ff-inter;
+      color: $color-biscay;
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 120%;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    color: $color-biscay;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.form-creator {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}

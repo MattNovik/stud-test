@@ -1,0 +1,25 @@
+.select {
+  position: relative;
+
+  & label {
+    position: static;
+    transform: none;
+    text-align: left;
+    font-family: $ff-inter;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    color: $color-biscay;
+    margin: 0 0 8px;
+  }
+
+  & legend {
+    display: none;
+  }
+  
+  &--form-name {
+    display: flex;
+    flex-direction: column;
+  }
+}
