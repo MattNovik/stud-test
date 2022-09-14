@@ -9,10 +9,6 @@ const CustomTextField = styled(TextField)`
     padding: 6px 34px 6px 12px;
   }
 
-  &.MuiFormLabel-root .MuiInputLabel-root .MuiInputLabel-formControl {
-    display: none;
-  }
-
   & .MuiFormLabel-root {
     transform: translate(0, -50%);
     font-family: 'Inter';
@@ -25,6 +21,10 @@ const CustomTextField = styled(TextField)`
     top: 50%;
   }
 
+  & .Mui-focused .MuiFormLabel-root {
+    display: none;
+  }
+
   & .MuiInputBase-root.MuiOutlinedInput-root {
     padding-right: 34px;
   }
@@ -34,6 +34,12 @@ const CustomAutocomplete = styled(Autocomplete)`
   & .MuiOutlinedInput-root .MuiAutocomplete-input {
     width: 100%;
     padding: 0;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    color: #303c54;
   }
 `;
 

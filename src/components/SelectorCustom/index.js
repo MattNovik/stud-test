@@ -41,8 +41,12 @@ const CustomTextField = styled(TextField)`
     color: #9da5b1;
   }
 
-  .MuiInputBase-root::after,
-  .MuiInputBase-root::before {
+  & .MuiInputBase-root {
+    border-radius: 4px;
+  }
+
+  & .MuiInputBase-root::after,
+  & .MuiInputBase-root::before {
     content: none;
   }
 `;

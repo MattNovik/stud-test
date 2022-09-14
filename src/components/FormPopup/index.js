@@ -86,7 +86,7 @@ const FormPopup = () => {
             value={formik.values.nameCity}
             type="city"
           />
-          <SwitchesGroup options={switchesData} />
+          <SwitchesGroup labelText="Поля формы" options={switchesData} />
           <div className="form-creator__visual">
             <p>Предварительный просмотр формы</p>
           </div>
