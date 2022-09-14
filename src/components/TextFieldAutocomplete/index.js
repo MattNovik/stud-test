@@ -1,4 +1,5 @@
 import './index.scss';
+import { ReactComponent as IconArrowDrop } from '../../img/dropArrow.svg';
 import InputLabel from '@mui/material/InputLabel';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -17,12 +18,8 @@ const CustomTextField = styled(TextField)`
     font-size: 14px;
     line-height: 150%;
     color: #303c54;
-    left: 6px;
+    left: 12px;
     top: 50%;
-  }
-
-  & .Mui-focused .MuiFormLabel-root {
-    display: none;
   }
 
   & .MuiInputBase-root.MuiOutlinedInput-root {
@@ -41,9 +38,28 @@ const CustomAutocomplete = styled(Autocomplete)`
     line-height: 150%;
     color: #303c54;
   }
+
+  & .MuiFormLabel-root.Mui-focused {
+    display: none;
+  }
+
+  & .MuiFormLabel-filled {
+    display: none;
+  }
+
+  & .MuiIconButton-root {
+    height: 18px;
+    width: 18px;
+  }
 `;
 
-const TextFieldAutocomplete = ({ labelText, type, name, options }) => {
+const TextFieldAutocomplete = ({
+  labelText,
+  type,
+  name,
+  options,
+  customChange,
+}) => {
   return (
     <div className={'textfield-autocomplete textfield-autocomplete--' + type}>
       <InputLabel id="demo-simple-select-label">{labelText}</InputLabel>
@@ -51,6 +67,9 @@ const TextFieldAutocomplete = ({ labelText, type, name, options }) => {
         disablePortal
         name={name}
         options={options}
+        onChange={customChange}
+        popupIcon={<IconArrowDrop />}
+        noOptionsText="Попробуйте другой вариант"
         renderInput={(params) => (
           <CustomTextField {...params} label={options[0].label} />
         )}

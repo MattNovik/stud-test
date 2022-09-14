@@ -1,0 +1,25 @@
+.comment-field {
+  position: relative;
+  margin: 0 auto 24px;
+
+  &__input-file {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    width: 9px;
+    height: 18px;
+    padding: 0;
+    color: $color-default-black;
+    cursor: pointer;
+  }
+
+  &__loader-wrapper {
+    height: 18px;
+  }
+
+  & .icon-upload {
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+  }
+}

@@ -1,4 +1,5 @@
 import './index.scss';
+import { ReactComponent as IconArrowDrop } from '../../img/dropArrow.svg';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -51,7 +52,18 @@ const CustomTextField = styled(TextField)`
   }
 `;
 
-const SelectorCustom = ({ labelText, value, options, valueSecond }) => {
+const CustomIconArrowDrop = styled(IconArrowDrop)`
+  width: 18px;
+  height: 18px;
+`;
+
+const SelectorCustom = ({
+  labelText,
+  value,
+  options,
+  valueSecond,
+  customChange,
+}) => {
   return (
     <div className="select select--form-name">
       <InputLabel id="demo-simple-select-label">{labelText}</InputLabel>
@@ -60,10 +72,16 @@ const SelectorCustom = ({ labelText, value, options, valueSecond }) => {
         name="nameForm"
         value={value}
         label="Заголовок формы:"
-        onChange={(e) => {
-          console.log('change name-form');
-          //formik.handleChange(e);
-        }}
+        onChange={customChange}
+        /*         IconComponent={(props) => (
+          <CustomIconArrowDrop
+            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined"
+            data-testid="ArrowDropDownIcon"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            focusable="false"
+          />
+        )} */
       >
         {options.map((option) => (
           <MenuItem key={nanoid()} value={option.value}>
@@ -75,10 +93,7 @@ const SelectorCustom = ({ labelText, value, options, valueSecond }) => {
         disabled
         id="filled-disabled"
         value={valueSecond}
-        onChange={(e) => {
-          console.log('change other-name');
-          //formik.handleChange(e);
-        }}
+        onChange={customChange}
         variant="filled"
       />
     </div>

@@ -26,7 +26,13 @@ const CustomTextField = styled(TextField)`
   }
 `;
 
-const TextFieldCustom = ({ lableText, disabled, value, type }) => {
+const TextFieldCustom = ({
+  lableText,
+  disabled,
+  value,
+  type,
+  customChange,
+}) => {
   return (
     <div className={'textfield-custom textfield-custom--' + type}>
       <InputLabel id="demo-simple-select-label">{lableText}</InputLabel>
@@ -35,10 +41,7 @@ const TextFieldCustom = ({ lableText, disabled, value, type }) => {
         id="filled-disabled"
         value={value}
         name="nameSubject"
-        onChange={(e) => {
-          console.log('change subject-name');
-          //formik.handleChange(e);
-        }}
+        onChange={customChange}
         variant="filled"
       />
     </div>

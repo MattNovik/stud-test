@@ -10,6 +10,7 @@ const CustomRadioGroup = styled(RadioGroup)`
   display: flex;
   column-gap: 24px;
 `;
+
 const CustomFormControlLabel = styled(FormControlLabel)`
   margin: 0;
 
@@ -19,6 +20,15 @@ const CustomFormControlLabel = styled(FormControlLabel)`
 
   & .MuiButtonBase-root {
     margin: 0 6px 0 0;
+
+    & span:first-of-type {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: solid 1px rgba(0, 0, 0, 0.25);
+      transition: border-color ease 0.3s, border-width ease 0.3s;
+      box-sizing: border-box;
+    }
   }
 
   & .MuiTypography-root {
@@ -30,11 +40,14 @@ const CustomFormControlLabel = styled(FormControlLabel)`
 
   & .Mui-checked {
     color: #0d6efd;
+
+    & span:first-of-type {
+      border: solid 4px #0d6efd;
+    }
   }
 
   & .MuiSvgIcon-root {
-    width: 16px;
-    height: 16px;
+    display: none;
   }
 
   & .MuiSvgIcon-root:last-child {
@@ -42,7 +55,14 @@ const CustomFormControlLabel = styled(FormControlLabel)`
   }
 `;
 
-const RadioGroupCustom = ({ labelText, name, value, id, options }) => {
+const RadioGroupCustom = ({
+  labelText,
+  name,
+  value,
+  id,
+  options,
+  customChange,
+}) => {
   return (
     <div className="radio-group">
       <InputLabel id="demo-simple-select-label">{labelText}</InputLabel>
@@ -51,10 +71,7 @@ const RadioGroupCustom = ({ labelText, name, value, id, options }) => {
         aria-labelledby="bg-color-form"
         name={name}
         value={value}
-        onChange={(e) => {
-          console.log('radio change');
-          //formik.handleChange(e);
-        }}
+        onChange={customChange}
         id={id}
       >
         {options.map((option) => (

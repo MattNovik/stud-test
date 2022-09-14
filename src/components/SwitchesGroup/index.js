@@ -37,8 +37,16 @@ const CustomSwitch = styled(Switch)`
     height: 12px;
     padding: 0;
     top: 50%;
-    left: 1px;
+    left: 2px;
     transform: translate(0, -50%);
+  }
+
+  & .MuiButtonBase-root.MuiSwitch-switchBase.Mui-checked {
+    transform: translate(13px, -50%);
+
+    & .MuiSwitch-thumb {
+      background-color: #ffffff;
+    }
   }
 
   & .MuiSwitch-thumb {
@@ -51,12 +59,13 @@ const CustomSwitch = styled(Switch)`
     opacity: 1;
   }
 
-  & .Mui-checked + .MuiSwitch-track {
+  & .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
     background-color: #0d6efd;
+    opacity: 1;
   }
 `;
 
-const SwitchesGroup = ({ labelText, options }) => {
+const SwitchesGroup = ({ labelText, options, customChange }) => {
   return (
     <div className="switches">
       <p className="switches__name">{labelText}</p>
@@ -64,9 +73,14 @@ const SwitchesGroup = ({ labelText, options }) => {
         {options.map((option) => (
           <CustomFormControlLabel
             key={nanoid()}
-            control={<CustomSwitch defaultChecked name={option.value} />}
+            control={
+              <CustomSwitch
+                defaultChecked={option.checked}
+                name={option.value}
+                onChange={customChange}
+              />
+            }
             label={option.label}
-            disabled={option.disabled}
           />
         ))}
       </CustomSwitches>

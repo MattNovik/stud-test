@@ -35,32 +35,32 @@ const switchesData = [
   {
     value: 'name',
     label: 'Имя',
-    disabled: false,
+    checked: false,
   },
   {
     value: 'tel',
     label: 'Телефон',
-    disabled: true,
+    checked: true,
   },
   {
     value: 'city',
     label: 'Город',
-    disabled: false,
+    checked: false,
   },
   {
     value: 'subject',
     label: 'Предмет',
-    disabled: false,
+    checked: false,
   },
   {
     value: 'font',
     label: 'Размер шрифта',
-    disabled: true,
+    checked: true,
   },
   {
     value: 'commFile',
     label: 'Добавить комментарий и файл',
-    disabled: false,
+    checked: false,
   },
 ];
 
@@ -79,10 +79,50 @@ const colorsTypes = [
   },
 ];
 
+const typesData = [
+  {
+    value: 1111,
+    label: 'Реферат',
+  },
+  {
+    value: 2222,
+    label: 'Курсовая',
+  },
+  {
+    value: 3333,
+    label: 'Диплом',
+  },
+  {
+    value: 4444,
+    label: 'Доклад',
+  },
+];
+
+const subjectData = [
+  {
+    value: 11111,
+    label: 'Биология',
+  },
+  {
+    value: 22222,
+    label: 'Экономика',
+  },
+  {
+    value: 33333,
+    label: 'Менеджмент',
+  },
+  {
+    value: 44444,
+    label: 'ИТ',
+  },
+];
+
 export {
   defaultButtonText,
   defaultFormNameText,
   defaultTypeOfWork,
   switchesData,
   colorsTypes,
+  typesData,
+  subjectData
 };

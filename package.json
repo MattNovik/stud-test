@@ -14,9 +14,11 @@
     "nanoid": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-imask": "^6.4.3-alpha.0",
     "react-scripts": "5.0.1",
     "sass": "^1.54.9",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "craco start",
