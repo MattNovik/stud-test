@@ -15,7 +15,6 @@ const CustomSelect = styled(Select)`
     min-height: auto;
     text-align: left;
     font-family: 'Inter';
-    font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;
@@ -32,18 +31,30 @@ const CustomSelect = styled(Select)`
 `;
 
 const CustomTextField = styled(TextField)`
-  & input {
+  & .MuiInputBase-root {
+    position: relative;
+    background-color: transparent;
+    border: solid 1px rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+  }
+
+  & .MuiInputBase-input,
+  & .MuiInputBase-input.Mui-focused {
     padding: 6px 12px;
     font-family: 'Inter';
-    font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;
-    color: #9da5b1;
+    color: #303c54;
+    border: solid 1px transparent;
+    height: auto;
   }
 
-  & .MuiInputBase-root {
+  & .Mui-disabled {
     border-radius: 4px;
+    color: #9da5b1;
+    background-color: rgba(0, 0, 0, 0.06);
+    border: solid 1px #ced4da;
   }
 
   & .MuiInputBase-root::after,
@@ -53,8 +64,9 @@ const CustomTextField = styled(TextField)`
 `;
 
 const CustomIconArrowDrop = styled(IconArrowDrop)`
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 7px;
+  color: rgba(0, 0, 0, 0.54);
 `;
 
 const SelectorCustom = ({
@@ -63,6 +75,8 @@ const SelectorCustom = ({
   options,
   valueSecond,
   customChange,
+  customChangeSecond,
+  formNameCustomDisabled,
 }) => {
   return (
     <div className="select select--form-name">
@@ -73,15 +87,16 @@ const SelectorCustom = ({
         value={value}
         label="Заголовок формы:"
         onChange={customChange}
-        /*         IconComponent={(props) => (
-          <CustomIconArrowDrop
-            className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined"
-            data-testid="ArrowDropDownIcon"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            focusable="false"
-          />
-        )} */
+        IconComponent={(props) => (
+          <div className="select__custom-icon">
+            <CustomIconArrowDrop
+              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined"
+              data-testid="ArrowDropDownIcon"
+              aria-hidden="true"
+              focusable="false"
+            />
+          </div>
+        )}
       >
         {options.map((option) => (
           <MenuItem key={nanoid()} value={option.value}>
@@ -90,11 +105,12 @@ const SelectorCustom = ({
         ))}
       </CustomSelect>
       <CustomTextField
-        disabled
+        disabled={formNameCustomDisabled}
         id="filled-disabled"
         value={valueSecond}
-        onChange={customChange}
+        onChange={customChangeSecond}
         variant="filled"
+        name="formNameCustom"
       />
     </div>
   );

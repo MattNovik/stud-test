@@ -17,6 +17,7 @@ const CustomFormControlLabel = styled(FormControlLabel)`
   margin: 0;
   display: flex;
   column-gap: 24px;
+  width: max-content;
 
   & .MuiTypography-root {
     font-family: 'Inter';
@@ -65,7 +66,7 @@ const CustomSwitch = styled(Switch)`
   }
 `;
 
-const SwitchesGroup = ({ labelText, options, customChange }) => {
+const SwitchesGroup = ({ labelText, options, customChangeSwitches }) => {
   return (
     <div className="switches">
       <p className="switches__name">{labelText}</p>
@@ -76,8 +77,8 @@ const SwitchesGroup = ({ labelText, options, customChange }) => {
             control={
               <CustomSwitch
                 defaultChecked={option.checked}
-                name={option.value}
-                onChange={customChange}
+                name={option.name}
+                onChange={customChangeSwitches}
               />
             }
             label={option.label}

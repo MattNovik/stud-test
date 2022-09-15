@@ -6,14 +6,28 @@ import { styled } from '@mui/material/styles';
 const CustomTextField = styled(TextField)`
   width: 100%;
 
-  & input {
+  & .MuiInputBase-root {
+    background-color: transparent;
+    border: solid 1px rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+  }
+
+  & .MuiInputBase-input {
     padding: 6px 12px;
     font-family: 'Inter';
-    font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;
+    color: #303c54;
+    border: solid 1px transparent;
+    height: auto;
+  }
+
+  & .Mui-disabled {
+    border-radius: 4px;
     color: #9da5b1;
+    background-color: rgba(0, 0, 0, 0.06);
+    border: solid 1px #ced4da;
   }
 
   & .MuiInputBase-root {
@@ -28,19 +42,27 @@ const CustomTextField = styled(TextField)`
 
 const TextFieldCustom = ({
   lableText,
-  disabled,
   value,
+  name,
+  disabled,
   type,
   customChange,
+  switches,
 }) => {
   return (
     <div className={'textfield-custom textfield-custom--' + type}>
       <InputLabel id="demo-simple-select-label">{lableText}</InputLabel>
       <CustomTextField
-        disabled={disabled}
+        disabled={
+          disabled
+            ? disabled
+            : switches.find((item) => item.name === name).checked
+            ? false
+            : true
+        }
         id="filled-disabled"
         value={value}
-        name="nameSubject"
+        name={name}
         onChange={customChange}
         variant="filled"
       />

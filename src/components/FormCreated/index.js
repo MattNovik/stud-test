@@ -1,9 +1,11 @@
 import './index.scss';
 import React from 'react';
 import { ReactComponent as IconArrowDrop } from '../../img/dropArrow.svg';
+import { ReactComponent as IconError } from '../../img/error.svg';
 import { ReactComponent as IconClose } from '../../img/close.svg';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import Autocomplete from '@mui/material/Autocomplete';
 import SearchAutocomplete from '../SearchAutocomplete';
 import TextField from '@mui/material/TextField';
 import SelectorCustomCreated from '../SelectorCustomCreated';
@@ -11,7 +13,154 @@ import CommentField from '../CommentField';
 import { typesData, subjectData } from '../../data/data';
 import { styled } from '@mui/material/styles';
 import { IMaskInput } from 'react-imask';
-import { useState } from 'react';
+import { useEffect } from 'react';
+
+const CustomTextField = styled(TextField)`
+  & .MuiInputBase-root.MuiOutlinedInput-root {
+    max-height: 50px;
+    padding: 20px 14px 10px 22px;
+    background-color: #f1f3f8;
+  }
+
+  & label {
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 17px;
+    color: #9eaabd;
+  }
+
+  & .MuiInputBase-root.MuiOutlinedInput-root {
+    padding-right: 14px;
+  }
+
+  & input {
+    height: auto;
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 23px;
+    color: #000000;
+    background-color: transparent;
+  }
+
+  & .MuiFormHelperText-root {
+    display: none;
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 2px 0 0;
+    color: #ffffff;
+  }
+
+  & .Mui-error ~ .MuiFormHelperText-root {
+    display: block;
+  }
+
+  & fieldset {
+    top: 0;
+    padding: 0;
+    border: solid 1px #f1f3f8;
+  }
+
+  & .MuiInputBase-root.Mui-focused {
+    & fieldset {
+      border: solid 1px #000;
+      box-sizing: border-box;
+    }
+  }
+
+  & legend {
+    display: none;
+  }
+
+  & .Mui-focused .MuiButtonBase-root {
+    opacity: 1;
+    visibility: visible;
+  }
+`;
+
+const CustomAutocomplete = styled(Autocomplete)`
+  & .MuiFormControl-root.MuiTextField-root > .MuiInputBase-root {
+    padding-right: 14px;
+  }
+
+  & .MuiOutlinedInput-root .MuiAutocomplete-input {
+    width: 100%;
+    padding: 0;
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 17px;
+    color: #000000;
+  }
+
+  & .MuiFormLabel-root {
+    transform: translate(22px, 16px);
+  }
+
+  & .MuiFormLabel-root.Mui-focused,
+  & .MuiFormLabel-filled {
+    color: #383838;
+    transform: translate(22px, 4px) scale(0.75);
+  }
+
+  & .MuiFormLabel-filled.Mui-focused ~ .MuiInputBase-root .icon-close {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  & .MuiInputBase-root.Mui-error .icon-error {
+    display: block;
+  }
+
+  &
+    .MuiFormLabel-filled.Mui-focused
+    ~ .MuiInputBase-root.Mui-error
+    .icon-error {
+    display: none;
+  }
+
+  & .MuiButtonBase-root {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  & .MuiIconButton-root {
+    height: 18px;
+    width: 18px;
+  }
+
+  & .MuiAutocomplete-endAdornment {
+    width: 18px;
+    height: 18px;
+  }
+
+  & .icon-close {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    width: 12px;
+    height: 12px;
+    margin: -7px 0 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  & .icon-error {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    width: 16px;
+    height: 16px;
+    margin: -7px 0 0;
+    display: none;
+  }
+`;
 
 const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
   const { onChange, ...other } = props;
@@ -37,12 +186,25 @@ const CustomTextFieldForm = styled(TextField)`
   max-height: 50px;
 
   & .MuiFormLabel-filled {
-    transform: translate(10px, -18px) scale(0.75);
-    color: #ffffff;
+    transform: translate(22px, 4px) scale(0.75);
+    color: #383838;
   }
 
   & .MuiFormLabel-filled.Mui-focused ~ .MuiInputBase-root .icon-close {
     display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  & .MuiInputBase-root.Mui-error .icon-error {
+    display: block;
+  }
+
+  &
+    .MuiFormLabel-filled.Mui-focused
+    ~ .MuiInputBase-root.Mui-error
+    .icon-error {
+    display: none;
   }
 
   & label {
@@ -56,8 +218,8 @@ const CustomTextFieldForm = styled(TextField)`
 
   & .MuiFormLabel-root.Mui-focused {
     display: block;
-    transform: translate(10px, -18px) scale(0.75);
-    color: #ffffff;
+    transform: translate(22px, 4px) scale(0.75);
+    color: #383838;
   }
 
   & input {
@@ -67,13 +229,31 @@ const CustomTextFieldForm = styled(TextField)`
     font-size: 17px;
     line-height: 17px;
     color: #000000;
-    padding: 14px 22px 16px;
+    padding: 20px 22px 10px;
     background-color: transparent;
+  }
+
+  & .Mui-error input {
+    color: #9eaabd;
   }
 
   & input:-webkit-autofill,
   & input:-webkit-autofill:focus {
     transition: background-color 600000s 0s;
+  }
+
+  & .MuiFormHelperText-root {
+    display: none;
+    font-family: 'Source Sans Pro';
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    margin: 2px 0 0;
+    color: #ffffff;
+  }
+
+  & .Mui-error ~ .MuiFormHelperText-root {
+    display: block;
   }
 
   & fieldset {
@@ -90,66 +270,90 @@ const CustomTextFieldForm = styled(TextField)`
     }
   }
 
+  & .MuiFormLabel-filled ~ .MuiInputBase-root fieldset {
+    border: solid 1px #00ba88;
+  }
+
+  & .MuiFormLabel-filled.Mui-error ~ .MuiInputBase-root fieldset {
+    border: solid 1px #ff0000;
+  }
+
   & legend {
     display: none;
   }
 
   & .icon-close {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
     cursor: pointer;
+  }
+
+  & .icon-error {
+    display: none;
   }
 `;
 
+const phoneRegExp =
+  /^((\+7|7|8).\(([0-9]){3}\).([0-9]){3}.(0-9]{2}.([0-9]{2}})))$/;
+
 const validationSchema = yup.object({
-  city: yup.string('Вставьте ваш город').required('Город обязателен'),
-  fontSize: yup.string('Напишите шрифт и размер').required('Шрифт обязателен'),
-  nameProf: yup.string('Впишите ваше имя ').required('Имя обязательно'),
-  workType: yup
-    .string('Выберите тип работы')
-    .required('Тип работы обязательно'),
-  subjectType: yup
-    .string('Выберите тип работы')
-    .required('Тип работы обязательно'),
-  theme: yup.string('Тема работы').required('Тема работы обязательно'),
-  email: yup
-    .string('Вставьте email')
-    .email('Вставьте валидный email')
-    .required('Email обязателен'),
-  telephone: yup.number('Вставь телефон'),
+  city: yup.string().required(),
+  fontSize: yup.string().required(),
+  nameProf: yup.string().required(),
+  workType: yup.string(),
+  /* .required('Тип работы обязательно') */ subjectType: yup
+    .string()
+    .required(),
+  theme: yup.string().required(),
+  email: yup.string().email().required(),
+  telephone:
+    yup.string() /* .matches(phoneRegExp, 'Phone number is not valid') */,
 });
 
-const FormCreated = () => {
+const FormCreated = ({
+  color,
+  realFormName,
+  switches,
+  subjectName,
+  cityName,
+}) => {
   const formikCreated = useFormik({
     initialValues: {
-      city: '',
-      fontSize: '',
-      nameProf: '',
-      workType: '',
-      subjectType: '',
-      theme: '',
-      email: '',
+      city: cityName || undefined,
+      fontSize: undefined,
+      nameProf: undefined,
+      workType: undefined,
+      subjectType: subjectName.value || undefined,
+      theme: undefined,
+      email: undefined,
       telephone: '+7 (___) ___-__-__',
     },
+    validateOnChange: true,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log('q');
       alert(JSON.stringify(values, null, 2));
     },
   });
 
-  const handleChange = (e) => {
-    console.log(e);
-    formikCreated.handleChange(e);
-  };
+  useEffect(() => {
+    formikCreated.setFieldValue('subjectType', subjectName.value);
+  }, [subjectName]);
+
+  useEffect(() => {
+    formikCreated.setFieldValue('city', cityName);
+  }, [cityName]);
 
   const customChange = (e) => {
-    console.log(e.target.value);
     formikCreated.handleChange(e);
   };
 
   return (
-    <form onSubmit={formikCreated.handleSubmit} className="form-created">
-      <p className="form-created__name">Рассчитайте цену консультации:</p>
+    <form
+      onSubmit={formikCreated.handleSubmit}
+      className={'form-created form-created--' + color}
+    >
+      <p className="form-created__name">{realFormName}</p>
       <div className="form-created__wrapper">
         <SelectorCustomCreated
           labelText="Выберите текст работы"
@@ -158,108 +362,235 @@ const FormCreated = () => {
           options={typesData}
           customChange={customChange}
         />
-        <SearchAutocomplete
-          required
+        {/*         <SearchAutocomplete
           labelText="Предмет"
           type="subject-type-text"
           name="subjectType"
           value={formikCreated.values.subjectType}
           options={subjectData}
-          customChange={customChange}
-        />
+          customChange={customChangeSearch}
+          error={errorSearch}
+        /> */}
+        {switches.find((item) => item.name === 'subject').checked ? (
+          <div
+            className={
+              'textfield-autocomplete-search textfield-autocomplete-search--subject-type-text'
+            }
+          >
+            <CustomAutocomplete
+              disablePortal
+              value={formikCreated.values.subjectType}
+              options={subjectData}
+              popupIcon={<></>}
+              onChange={(e) => {
+                if (e.target.tagName === 'svg' || e.target.tagName === 'path') {
+                  formikCreated.setFieldValue('subjectType', '');
+                } else {
+                  formikCreated.setFieldValue(
+                    'subjectType',
+                    e.target.innerHTML
+                  );
+                }
+              }}
+              noOptionsText="Попробуйте другой вариант"
+              renderInput={(params) => (
+                <CustomTextField
+                  error={
+                    formikCreated.touched.subjectType &&
+                    Boolean(formikCreated.errors.subjectType)
+                  }
+                  name="subjectType"
+                  helperText="Выберите предмет"
+                  label="Предмет"
+                  {...params}
+                  InputProps={{
+                    ...params.InputProps,
+                    endAdornment: (
+                      <>
+                        <IconClose
+                          onClick={(e) => {
+                            console.log(e.target.tagName);
+                            if (
+                              e.target.tagName === 'svg' ||
+                              e.target.tagName === 'path'
+                            ) {
+                              formikCreated.setFieldValue('subjectType', '');
+                            }
+                          }}
+                          className="icon-close"
+                        />
+                        <IconError className="icon-error" />
+                      </>
+                    ),
+                  }}
+                />
+              )}
+            />
+          </div>
+        ) : (
+          ''
+        )}
         <CustomTextFieldForm
           id="outlined-required"
           label="Введите тему работы"
           name="theme"
           value={formikCreated.values.theme}
+          helperText="Вы не указали тему работы"
           onChange={customChange}
+          error={
+            formikCreated.touched.theme && Boolean(formikCreated.errors.theme)
+          }
           InputProps={{
             endAdornment: (
-              <IconClose
-                onClick={() => console.log('clear')}
-                className="icon-close"
-              />
+              <>
+                <IconClose
+                  onClick={(e) => console.log(e.target)}
+                  className="icon-close"
+                />
+                <IconError className="icon-error" />
+              </>
             ),
           }}
         />
+        {switches.find((item) => item.name === 'name').checked ? (
+          <CustomTextFieldForm
+            id="outlined-required"
+            label="Ваше имя"
+            name="nameProf"
+            value={formikCreated.values.nameProf}
+            onChange={customChange}
+            error={
+              formikCreated.touched.nameProf &&
+              Boolean(formikCreated.errors.nameProf)
+            }
+            helperText="Вы не указали имя"
+            InputProps={{
+              endAdornment: (
+                <>
+                  <IconClose
+                    onClick={() => console.log('clear')}
+                    className="icon-close"
+                  />
+                  <IconError className="icon-error" />
+                </>
+              ),
+            }}
+          />
+        ) : (
+          ''
+        )}
         <CustomTextFieldForm
-          required
-          id="outlined-required"
-          label="Ваше имя"
-          name="nameProf"
-          value={formikCreated.values.nameProf}
-          onChange={customChange}
-          InputProps={{
-            endAdornment: (
-              <IconClose
-                onClick={() => console.log('clear')}
-                className="icon-close"
-              />
-            ),
-          }}
-        />
-        <CustomTextFieldForm
-          required
           id="outlined-required"
           label="E-mail"
           name="email"
           value={formikCreated.values.email}
           onChange={customChange}
+          helperText="Вы не указали Email"
+          error={
+            formikCreated.touched.email && Boolean(formikCreated.errors.email)
+          }
           InputProps={{
             endAdornment: (
-              <IconClose
-                onClick={() => console.log('clear')}
-                className="icon-close"
-              />
+              <>
+                <IconClose
+                  onClick={() => {
+                    formikCreated.setFieldValue('email', '');
+                  }}
+                  className="icon-close"
+                />
+                <IconError className="icon-error" />
+              </>
             ),
           }}
         />
-        <CustomTextFieldForm
-          id="telephone"
-          label="Пришлем SMS с ценой (без спама)"
-          name="telephone"
-          value={formikCreated.values.telephone}
-          onChange={handleChange}
-          InputProps={{
-            endAdornment: (
-              <IconClose
-                onClick={() => console.log('clear')}
-                className="icon-close"
-              />
-            ),
-            inputComponent: TextMaskCustom,
-          }}
-        />
-        <CustomTextFieldForm
-          id="outlined-required"
-          label="Город"
-          name="city"
-          value={formikCreated.values.city}
-          onChange={customChange}
-          InputProps={{
-            endAdornment: (
-              <IconClose
-                onClick={() => console.log('clear')}
-                className="icon-close"
-              />
-            ),
-          }}
-        />
-        <CustomTextFieldForm
-          id="outlined-required"
-          label="Размер шрифта"
-          name="fontSize"
-          value={formikCreated.values.fontSize}
-          onChange={customChange}
-          InputProps={{
-            endAdornment: (
-              <IconClose
-                onClick={() => console.log('clear')}
-                className="icon-close"
-              />
-            ),
-          }}
-        />
+        {switches.find((item) => item.name === 'tel').checked ? (
+          <CustomTextFieldForm
+            id="telephone"
+            label="Пришлем SMS с ценой (без спама)"
+            name="telephone"
+            value={formikCreated.values.telephone}
+            onChange={(value) => {
+              formikCreated.setFieldValue('telephone', value);
+            }}
+            error={
+              formikCreated.touched.telephone &&
+              Boolean(formikCreated.errors.telephone)
+            }
+            helperText="Вы не указали телефон"
+            InputProps={{
+              endAdornment: (
+                <>
+                  <IconClose
+                    onClick={() =>
+                      formikCreated.setFieldValue(
+                        'telephone',
+                        '+7 (___) ___-__-__'
+                      )
+                    }
+                    className="icon-close"
+                  />
+                  <IconError className="icon-error" />
+                </>
+              ),
+              inputComponent: TextMaskCustom,
+            }}
+          />
+        ) : (
+          ''
+        )}
+        {switches.find((item) => item.name === 'city').checked ? (
+          <CustomTextFieldForm
+            id="outlined-required"
+            label="Город"
+            name="city"
+            value={formikCreated.values.city}
+            onChange={customChange}
+            error={
+              formikCreated.touched.city && Boolean(formikCreated.errors.city)
+            }
+            helperText="Вы не указали город"
+            InputProps={{
+              endAdornment: (
+                <>
+                  <IconClose
+                    onClick={() => console.log('clear')}
+                    className="icon-close"
+                  />
+                  <IconError className="icon-error" />
+                </>
+              ),
+            }}
+          />
+        ) : (
+          ''
+        )}
+        {switches.find((item) => item.name === 'font').checked ? (
+          <CustomTextFieldForm
+            id="outlined-required"
+            label="Размер шрифта"
+            name="fontSize"
+            value={formikCreated.values.fontSize}
+            onChange={customChange}
+            error={
+              formikCreated.touched.fontSize &&
+              Boolean(formikCreated.errors.fontSize)
+            }
+            helperText="Вы не указали размер шрифта"
+            InputProps={{
+              endAdornment: (
+                <>
+                  <IconClose
+                    onClick={() => console.log('clear')}
+                    className="icon-close"
+                  />
+                  <IconError className="icon-error" />
+                </>
+              ),
+            }}
+          />
+        ) : (
+          ''
+        )}
       </div>
       <button type="button" className="form-created__add-comment">
         <span className="form-created__add-comment-text">
@@ -269,7 +600,11 @@ const FormCreated = () => {
           <IconArrowDrop />
         </span>
       </button>
-      <CommentField />
+      {switches.find((item) => item.name === 'commFile').checked ? (
+        <CommentField />
+      ) : (
+        ''
+      )}
       <button type="submit" className="form-created__button">
         <span className="form-created__button-text">Узнать стоимость</span>
         <span className="form-created__button-icon">

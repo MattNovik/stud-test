@@ -25,6 +25,10 @@ const CustomTextField = styled(TextField)`
   & .MuiInputBase-root.MuiOutlinedInput-root {
     padding-right: 34px;
   }
+
+  & .MuiAutocomplete-endAdornment .MuiButtonBase-root[title='Clear'] {
+    margin-right: 5px;
+  }
 `;
 
 const CustomAutocomplete = styled(Autocomplete)`

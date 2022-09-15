@@ -1,8 +1,8 @@
 import './index.scss';
-import { ReactComponent as IconArrowDrop } from '../../img/dropArrow.svg';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
+import { useEffect } from 'react';
 
 const CustomTextField = styled(TextField)`
   & .MuiInputBase-root.MuiOutlinedInput-root {
@@ -89,7 +89,14 @@ const CustomAutocomplete = styled(Autocomplete)`
   }
 `;
 
-const SearchAutocomplete = ({ type, name, options, customChange }) => {
+const SearchAutocomplete = ({
+  type,
+  name,
+  value,
+  options,
+  customChange,
+  errorSearch,
+}) => {
   return (
     <div
       className={
@@ -99,12 +106,18 @@ const SearchAutocomplete = ({ type, name, options, customChange }) => {
       <CustomAutocomplete
         disablePortal
         name={name}
+        value={value}
         options={options}
-        onChange={customChange}
         popupIcon={<></>}
+        onChange={customChange}
         noOptionsText="Попробуйте другой вариант"
         renderInput={(params) => (
-          <CustomTextField required {...params} label="Предмет" />
+          <CustomTextField
+            error={errorSearch}
+            helperText="not now"
+            {...params}
+            label="Предмет"
+          />
         )}
       />
     </div>

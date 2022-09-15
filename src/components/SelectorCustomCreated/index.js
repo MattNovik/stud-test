@@ -12,7 +12,7 @@ const CustomSelect = styled(Select)`
   border-radius: 6px;
 
   & .MuiSelect-select {
-    padding: 15px 22px 18px;
+    padding: 21px 22px 12px;
     min-height: auto;
     text-align: left;
     font-family: 'Source Sans Pro';
@@ -40,11 +40,11 @@ const CustomSelect = styled(Select)`
 const CustomFormControl = styled(FormControl)`
   & .MuiFormLabel-root.Mui-focused,
   & .MuiFormLabel-filled {
-    color: #ffffff;
-    transform: translate(10px, -18px) scale(0.75);
+    color: #383838;
+    transform: translate(22px, 4px) scale(0.75);
   }
 
-  & .Mui-focused {
+  & .MuiInputBase-root.Mui-focused {
     & .MuiOutlinedInput-notchedOutline {
       border: solid 1px #000;
       box-sizing: border-box;
@@ -53,8 +53,9 @@ const CustomFormControl = styled(FormControl)`
 `;
 
 const CustomIconArrowDrop = styled(IconArrowDrop)`
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 7px;
+  color: rgba(0, 0, 0, 0.54);
 `;
 
 const SelectorCustomCreated = ({ value, options, customChange }) => {
@@ -70,15 +71,16 @@ const SelectorCustomCreated = ({ value, options, customChange }) => {
           name="workType"
           value={value}
           onChange={customChange}
-          /*         IconComponent={(props) => (
-            <CustomIconArrowDrop
-              className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined"
-              data-testid="ArrowDropDownIcon"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              focusable="false"
-            />
-          )} */
+          IconComponent={(props) => (
+            <div className="select-created__custom-icon">
+              <CustomIconArrowDrop
+                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined"
+                data-testid="ArrowDropDownIcon"
+                aria-hidden="true"
+                focusable="false"
+              />
+            </div>
+          )}
         >
           {options.map((option) => (
             <MenuItem key={nanoid()} value={option.value}>

@@ -15,7 +15,7 @@ const defaultFormNameText = [
     label: 'Рассчитайте цену консультации',
   },
   {
-    value: 2,
+    value: 'custom',
     label: 'Другое',
   },
 ];
@@ -100,19 +100,19 @@ const typesData = [
 
 const subjectData = [
   {
-    value: 11111,
+    value: 'Биология',
     label: 'Биология',
   },
   {
-    value: 22222,
+    value: 'Экономика',
     label: 'Экономика',
   },
   {
-    value: 33333,
+    value: 'Менеджмент',
     label: 'Менеджмент',
   },
   {
-    value: 44444,
+    value: 'ИТ',
     label: 'ИТ',
   },
 ];
@@ -124,5 +124,5 @@ export {
   switchesData,
   colorsTypes,
   typesData,
-  subjectData
+  subjectData,
 };

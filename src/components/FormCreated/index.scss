@@ -2,8 +2,20 @@
   min-width: 486px;
   padding: 46px 54px;
   margin: 0 auto;
-  background-color: $color-valencia;
   border-radius: 6px;
+  transition: all .3s ease;
+
+  &--red {
+    background-color: $color-valencia;
+  }
+
+  &--blue {
+    background-color: $color-dodger-blue;
+  }
+
+  &--white {
+    background-color: $color-default-white;
+  }
 
   &__name {
     text-align: center;
@@ -31,7 +43,7 @@
     column-gap: 9px;
     min-width: 281px;
     padding: 18px 30px;
-    background: $color-valencia;
+    background: $color-transparent;
     border: 1px solid $color-default-white;
     border-radius: 6px;
     margin: 0 auto 16px;

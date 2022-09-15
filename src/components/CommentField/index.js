@@ -30,6 +30,11 @@ const CustomTextFieldForm = styled(TextField)`
     transform: translate(22px, 18px);
   }
 
+  & .MuiFormLabel-filled {
+    transform: translate(22px, -18px) scale(0.75);
+    color: #ffffff;
+  }
+
   & .MuiFormLabel-root.Mui-focused {
     display: block;
     transform: translate(10px, -18px) scale(0.75);

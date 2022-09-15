@@ -8,6 +8,7 @@ import SwitchesGroup from '../SwitchesGroup';
 import SelectorCustom from '../SelectorCustom';
 import RadioGroupCustom from '../RadioGroupCustom';
 import FormCreated from '../FormCreated';
+import { useState } from 'react';
 
 import {
   defaultButtonText,
@@ -18,15 +19,38 @@ import {
 } from '../../data/data';
 
 const FormPopup = () => {
+  const [color, setColor] = useState('red');
+  const [formName, setFormName] = useState(defaultFormNameText[0].label);
+  const [realFormName, setRealFormName] = useState(formName);
+  const [formNameCustom, setFormNameCustom] = useState(
+    'Введите свой заголовок'
+  );
+  const [formNameCustomDisabled, setFormNameCustomDisabled] = useState(true);
+  const [subjectName, setSubjectName] = useState({
+    value: 'Введите название предмета',
+    label: 'Введите название предмета',
+  });
+  const [cityName, setCityName] = useState('Введите название города');
+
+  const [switches, setSwitches] = useState(
+    switchesData.map((item) => {
+      let newObj = {};
+      newObj.label = item.label;
+      newObj.checked = item.checked;
+      newObj.name = item.value;
+      return newObj;
+    })
+  );
+
   const formik = useFormik({
     initialValues: {
       colors: 'red',
       nameForm: 1,
-      nameFormOther: 'Введите свой заголовок',
+      formNameCustom: formNameCustom,
       buttonText: 11,
       typeOfWork: 111,
-      nameSubject: 'Введите название предмета',
-      nameCity: 'Введите название города',
+      subject: subjectName.label,
+      city: cityName,
     },
     onSubmit: (values) => {
       console.log(values);
@@ -34,8 +58,42 @@ const FormPopup = () => {
   });
 
   const customChange = (e) => {
-    console.log('custom change');
+    if (e.target.name === 'colors') {
+      setColor(e.target.value);
+    } else if (e.target.name === 'nameForm') {
+      let newFormName = defaultFormNameText.find(
+        (item) => item.value === e.target.value
+      ).label;
+      setFormName(newFormName);
+      setRealFormName(newFormName);
+      if (e.target.value === 'custom') {
+        setFormNameCustomDisabled(false);
+        setRealFormName(formNameCustom);
+      } else {
+        setFormNameCustomDisabled(true);
+      }
+    } else if (e.target.name === 'subject') {
+      setSubjectName({ value: e.target.value, label: e.target.value });
+    } else if (e.target.name === 'city') {
+      setCityName(e.target.value);
+    }
     formik.handleChange(e);
+  };
+
+  const customChangeSecond = (e) => {
+    setFormNameCustom(e.target.value);
+    setRealFormName(e.target.value);
+    formik.handleChange(e);
+  };
+
+  const customChangeSwitches = (e) => {
+    let createdSwitches = switches.map((item) => {
+      if (item.name === e.target.name) {
+        item.checked = !item.checked;
+      }
+      return item;
+    });
+    setSwitches(createdSwitches);
   };
 
   return (
@@ -58,8 +116,10 @@ const FormPopup = () => {
             labelText="Заголовок формы:"
             value={formik.values.nameForm}
             options={defaultFormNameText}
-            valueSecond={formik.values.nameFormOther}
+            valueSecond={formik.values.formNameCustom}
             customChange={customChange}
+            customChangeSecond={customChangeSecond}
+            formNameCustomDisabled={formNameCustomDisabled}
           />
           <TextFieldAutocomplete
             labelText="Текст на кнопке:"
@@ -77,24 +137,36 @@ const FormPopup = () => {
           />
           <TextFieldCustom
             lableText="Предмет по умолчанию"
-            disabled={true}
-            value={formik.values.nameSubject}
+            value={formik.values.subject}
             type="subject"
+            name="subject"
             customChange={customChange}
+            switches={switches}
           />
           <TextFieldCustom
             lableText="Город по умолчанию"
-            disabled={true}
-            value={formik.values.nameCity}
+            value={formik.values.city}
             type="city"
+            name="city"
             customChange={customChange}
+            switches={switches}
           />
-          <SwitchesGroup labelText="Поля формы" options={switchesData} />
+          <SwitchesGroup
+            labelText="Поля формы"
+            options={switches}
+            customChangeSwitches={customChangeSwitches}
+          />
         </div>
       </form>
       <div className="form-visual">
         <p className="form-visual__name">Предварительный просмотр формы</p>
-        <FormCreated />
+        <FormCreated
+          color={color}
+          realFormName={realFormName}
+          switches={switches}
+          subjectName={subjectName}
+          cityName={cityName}
+        />
       </div>
     </div>
   );
