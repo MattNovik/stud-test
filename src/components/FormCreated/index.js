@@ -23,9 +23,8 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
         '#': /[1-9]|_/,
       }}
       inputRef={ref}
-      onAccept={(value, mask) => {
-        console.log(mask);
-        onChange(mask);
+      onAccept={(value) => {
+        onChange(value);
       }}
       overwrite
     />
@@ -116,7 +115,7 @@ const validationSchema = yup.object({
     .string('Вставьте email')
     .email('Вставьте валидный email')
     .required('Email обязателен'),
-  telephone: yup.number('Вставь телефон').required('Email обязателен'),
+  telephone: yup.number('Вставь телефон'),
 });
 
 const FormCreated = () => {
@@ -133,11 +132,13 @@ const FormCreated = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      console.log('q');
       alert(JSON.stringify(values, null, 2));
     },
   });
 
   const handleChange = (e) => {
+    console.log(e);
     formikCreated.handleChange(e);
   };
 
@@ -214,7 +215,6 @@ const FormCreated = () => {
           }}
         />
         <CustomTextFieldForm
-          required
           id="telephone"
           label="Пришлем SMS с ценой (без спама)"
           name="telephone"
