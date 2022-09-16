@@ -69,13 +69,12 @@ const TextFieldAutocomplete = ({
       <InputLabel id="demo-simple-select-label">{labelText}</InputLabel>
       <CustomAutocomplete
         disablePortal
-        name={name}
         options={options}
         onChange={customChange}
         popupIcon={<IconArrowDrop />}
         noOptionsText="Попробуйте другой вариант"
         renderInput={(params) => (
-          <CustomTextField {...params} label={options[0].label} />
+          <CustomTextField name={name} {...params} label={options[0].label} />
         )}
       />
     </div>

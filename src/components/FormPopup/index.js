@@ -30,7 +30,12 @@ const FormPopup = () => {
     value: 'Введите название предмета',
     label: 'Введите название предмета',
   });
+  const [workType, setWorkType] = useState({
+    value: undefined,
+    label: 'Не выбрана',
+  });
   const [cityName, setCityName] = useState('Введите название города');
+  const [buttonName, setButtonName] = useState(defaultButtonText[0].label);
 
   const [switches, setSwitches] = useState(
     switchesData.map((item) => {
@@ -80,6 +85,15 @@ const FormPopup = () => {
     formik.handleChange(e);
   };
 
+  const buttonTextChange = (e) => {
+    setButtonName(e.target.innerHTML);
+    formik.handleChange(e);
+  };
+  const typOfWorkChange = (e) => {
+    setWorkType({ value: e.target.innerHTML, label: e.target.innerHTML });
+    formik.handleChange(e);
+  };
+
   const customChangeSecond = (e) => {
     setFormNameCustom(e.target.value);
     setRealFormName(e.target.value);
@@ -126,14 +140,14 @@ const FormPopup = () => {
             type="button-text"
             name="buttonText"
             options={defaultButtonText}
-            customChange={customChange}
+            customChange={buttonTextChange}
           />
           <TextFieldAutocomplete
             labelText="Тип работы по умолчанию:"
             type="type-of-work"
             name="typeOfWork"
             options={defaultTypeOfWork}
-            customChange={customChange}
+            customChange={typOfWorkChange}
           />
           <TextFieldCustom
             lableText="Предмет по умолчанию"
@@ -166,6 +180,8 @@ const FormPopup = () => {
           switches={switches}
           subjectName={subjectName}
           cityName={cityName}
+          buttonName={buttonName}
+          workType={workType}
         />
       </div>
     </div>

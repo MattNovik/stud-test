@@ -346,6 +346,8 @@ const FormCreated = ({
   switches,
   subjectName,
   cityName,
+  buttonName,
+  workType,
 }) => {
   const [newNameChecked, setNameChecked] = useState(
     switches.find((item) => item.name === 'name').checked
@@ -361,6 +363,11 @@ const FormCreated = ({
   }, [subjectName]);
 
   useEffect(() => {
+    console.log(workType);
+    formikCreated.setFieldValue('workType', workType.value);
+  }, [workType]);
+
+  useEffect(() => {
     formikCreated.setFieldValue('city', cityName);
   }, [cityName]);
 
@@ -373,7 +380,7 @@ const FormCreated = ({
       city: cityName ? ' ' : undefined,
       fontSize: newNameChecked ? ' ' : undefined,
       nameProf: undefined,
-      workType: '',
+      workType: workType.value || '',
       subjectType: subjectName.value || undefined,
       theme: undefined,
       email: undefined,
@@ -712,7 +719,7 @@ const FormCreated = ({
         ''
       )}
       <button type="submit" className="form-created__button">
-        <span className="form-created__button-text">Узнать стоимость</span>
+        <span className="form-created__button-text">{buttonName}</span>
         <span className="form-created__button-icon">
           <IconArrowDrop />
         </span>

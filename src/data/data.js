@@ -22,12 +22,24 @@ const defaultFormNameText = [
 
 const defaultTypeOfWork = [
   {
-    value: 111,
+    value: undefined,
     label: 'Не выбрана',
   },
   {
-    value: 222,
-    label: 'Другое',
+    value: 'Реферат',
+    label: 'Реферат',
+  },
+  {
+    value: 'Курсовая',
+    label: 'Курсовая',
+  },
+  {
+    value: 'Диплом',
+    label: 'Диплом',
+  },
+  {
+    value: 'Доклад',
+    label: 'Доклад',
   },
 ];
 
@@ -81,19 +93,19 @@ const colorsTypes = [
 
 const typesData = [
   {
-    value: 1111,
+    value: 'Реферат',
     label: 'Реферат',
   },
   {
-    value: 2222,
+    value: 'Курсовая',
     label: 'Курсовая',
   },
   {
-    value: 3333,
+    value: 'Диплом',
     label: 'Диплом',
   },
   {
-    value: 4444,
+    value: 'Доклад',
     label: 'Доклад',
   },
 ];
