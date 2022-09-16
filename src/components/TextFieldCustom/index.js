@@ -6,6 +6,18 @@ import { styled } from '@mui/material/styles';
 const CustomTextField = styled(TextField)`
   width: 100%;
 
+  &:hover {
+    background-color: transparent;
+
+    & .MuiInputBase-input {
+      border: solid 1px #000;
+    }
+
+    & .MuiFilledInput-input.Mui-disabled {
+      border: solid 1px transparent;
+    }
+  }
+
   & .MuiInputBase-root {
     background-color: transparent;
     border: solid 1px rgba(0, 0, 0, 0.23);

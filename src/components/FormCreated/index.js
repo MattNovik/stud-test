@@ -333,11 +333,32 @@ const FormCreated = ({
   subjectName,
   cityName,
 }) => {
+  const [newNameChecked, setNameChecked] = useState(
+    switches.find((item) => item.name === 'name').checked
+  );
+  const [cityChecked, setCityChecked] = useState(
+    switches.find((item) => item.name === 'city').checked
+  );
+
+  const [addComment, setAddComment] = useState(false);
+
+  useEffect(() => {
+    formikCreated.setFieldValue('subjectType', subjectName.value);
+  }, [subjectName]);
+
+  useEffect(() => {
+    formikCreated.setFieldValue('city', cityName);
+  }, [cityName]);
+
+  const customChange = (e) => {
+    formikCreated.handleChange(e);
+  };
+
   const formikCreated = useFormik({
     initialValues: {
-      city: cityName || ' ',
-      fontSize: undefined,
-      nameProf: ' ',
+      city: cityName ? ' ' : undefined,
+      fontSize: newNameChecked ? ' ' : undefined,
+      nameProf: undefined,
       workType: '',
       subjectType: subjectName.value || undefined,
       theme: undefined,
@@ -353,18 +374,38 @@ const FormCreated = ({
     },
   });
 
-  const [addComment, setAddComment] = useState(false);
+  useEffect(() => {
+    if (switches.find((item) => item.name === 'name').checked) {
+      setNameChecked(true);
+    } else if (
+      switches.find((item) => item.name === 'name').checked === false
+    ) {
+      setNameChecked(false);
+    }
+    if (switches.find((item) => item.name === 'city').checked) {
+      setCityChecked(true);
+    } else if (
+      switches.find((item) => item.name === 'city').checked === false
+    ) {
+      setCityChecked(false);
+    }
+  }, [switches]);
 
   useEffect(() => {
-    formikCreated.setFieldValue('subjectType', subjectName.value);
-  }, [subjectName]);
+    if (newNameChecked) {
+      formikCreated.setFieldValue('nameProf', '');
+    } else if (newNameChecked === false) {
+      formikCreated.setFieldValue('nameProf', ' ');
+    }
+  }, [newNameChecked]);
 
   useEffect(() => {
-    formikCreated.setFieldValue('city', cityName);
-  }, [cityName]);
-  const customChange = (e) => {
-    formikCreated.handleChange(e);
-  };
+    if (cityChecked) {
+      formikCreated.setFieldValue('city', cityName ? cityName : '');
+    } else if (cityChecked === false) {
+      formikCreated.setFieldValue('city', ' ');
+    }
+  }, [cityChecked]);
 
   const customUploadFiles = (files) => {
     let newArray = [];
@@ -513,7 +554,6 @@ const FormCreated = ({
           label="E-mail*"
           name="email"
           type="email"
-          autoComplete={false}
           value={formikCreated.values.email}
           onChange={customChange}
           helperText="Вы не указали Email"
@@ -537,7 +577,7 @@ const FormCreated = ({
         {switches.find((item) => item.name === 'tel').checked ? (
           <CustomTextFieldForm
             id="telephone"
-            label="Пришлем SMS с ценой (без спама)"
+            label="Номер телефона"
             name="telephone"
             value={formikCreated.values.telephone}
             onChange={(value) => {

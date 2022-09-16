@@ -31,6 +31,14 @@ const CustomSelect = styled(Select)`
 `;
 
 const CustomTextField = styled(TextField)`
+  &:hover {
+    background-color: transparent;
+
+    & .MuiInputBase-input {
+      border: solid 1px #000;
+    }
+  }
+
   & .MuiInputBase-root {
     position: relative;
     background-color: transparent;
@@ -48,6 +56,10 @@ const CustomTextField = styled(TextField)`
     color: #303c54;
     border: solid 1px transparent;
     height: auto;
+  }
+
+  & .MuiInputBase-root.Mui-disabled {
+    background-color: transparent;
   }
 
   & .MuiFilledInput-input.Mui-disabled {
