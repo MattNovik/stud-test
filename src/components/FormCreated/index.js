@@ -206,20 +206,21 @@ const CustomTextFieldForm = styled(TextField)`
   }
 
   & .MuiFormLabel-filled.Mui-focused ~ .MuiInputBase-root .icon-close {
-    display: block;
     opacity: 1;
     visibility: visible;
   }
 
   & .MuiInputBase-root.Mui-error .icon-error {
-    display: block;
+    opacity: 1;
+    visibility: visible;
   }
 
   &
     .MuiFormLabel-filled.Mui-focused
     ~ .MuiInputBase-root.Mui-error
     .icon-error {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
   }
 
   & label {
@@ -250,6 +251,10 @@ const CustomTextFieldForm = styled(TextField)`
 
   & .Mui-error input {
     color: #9eaabd;
+  }
+
+  & .Mui-error.Mui-focused input {
+    color: #000;
   }
 
   & input:-webkit-autofill,
@@ -306,7 +311,16 @@ const CustomTextFieldForm = styled(TextField)`
   }
 
   & .icon-error {
-    display: none;
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translate(0, -50%);
+    width: 16px;
+    height: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
   }
 `;
 
@@ -564,8 +578,10 @@ const FormCreated = ({
             endAdornment: (
               <>
                 <IconClose
-                  onClick={() => {
+                  onClick={(e) => {
                     formikCreated.setFieldValue('email', '');
+                    //e.target.closest('div').querySelector('input').value = '';
+                    console.log('clear');
                   }}
                   className="icon-close"
                 />
@@ -611,7 +627,7 @@ const FormCreated = ({
         )}
         {switches.find((item) => item.name === 'city').checked ? (
           <CustomTextFieldForm
-            id="outlined-required"
+            id="city"
             label="Город"
             name="city"
             value={formikCreated.values.city}
@@ -639,7 +655,7 @@ const FormCreated = ({
         )}
         {switches.find((item) => item.name === 'font').checked ? (
           <CustomTextFieldForm
-            id="outlined-required"
+            id="fontSize"
             label="Размер шрифта*"
             name="fontSize"
             value={formikCreated.values.fontSize}
