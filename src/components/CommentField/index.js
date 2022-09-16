@@ -1,7 +1,10 @@
 import './index.scss';
 import { ReactComponent as IconUpload } from '../../img/upload.svg';
+import { ReactComponent as IconClose } from '../../img/close.svg';
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
+import { nanoid } from 'nanoid';
+import { useState } from 'react';
 
 const CustomTextFieldForm = styled(TextField)`
   background-color: #f1f3f8;
@@ -81,14 +84,17 @@ const CustomTextFieldForm = styled(TextField)`
   }
 `;
 
-const CommentField = () => {
+const CommentField = ({ value, files, customChange, customUploadFiles }) => {
+  const [listLoadedFiles, setListLoadedFiles] = useState([]);
   return (
     <div className="comment-field">
       <CustomTextFieldForm
         fullWidth
         id="outlined-required"
+        name="comments"
         label="Введите ваш комментарий"
-        defaultValue=""
+        value={value}
+        onChange={customChange}
         InputProps={{
           endAdornment: (
             <div className="comment-field__loader-wrapper">
@@ -98,7 +104,19 @@ const CommentField = () => {
                 id="file"
                 className="comment-field__input-file"
                 multiple
-                onChange={() => console.log('upload')}
+                onChange={(e) => {
+                  let filesList = e.target.files;
+                  let newArray = [];
+                  for (
+                    let i = 0, numFiles = filesList.length;
+                    i < numFiles;
+                    i++
+                  ) {
+                    newArray.push(filesList[i]);
+                  }
+                  setListLoadedFiles(newArray);
+                  customUploadFiles(newArray);
+                }}
               ></input>
               <label htmlFor="file">
                 <IconUpload className="icon-upload" />
@@ -107,6 +125,28 @@ const CommentField = () => {
           ),
         }}
       />
+      <div className="comment-field__loaded-files">
+        <ul className="comment-field__loaded-list">
+          {listLoadedFiles.map((item) => (
+            <li className="comment-field__file" key={nanoid()}>
+              <span>{item.name + ' - загружено'}</span>
+              <IconClose
+                data-value={item.name}
+                className="comment-field__icon-close"
+                onClick={(e) => {
+                  let newArray = listLoadedFiles;
+                  newArray.splice(
+                    newArray.indexOf(e.target.closest('svg').dataset.value),
+                    1
+                  );
+                  setListLoadedFiles(newArray);
+                  customUploadFiles(newArray);
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

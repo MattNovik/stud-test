@@ -50,6 +50,13 @@ const CustomFormControl = styled(FormControl)`
       box-sizing: border-box;
     }
   }
+
+  &
+    .MuiFormLabel-filled
+    ~ .MuiInputBase-root
+    > .MuiOutlinedInput-notchedOutline {
+    border: solid 1px #00ba88;
+  }
 `;
 
 const CustomIconArrowDrop = styled(IconArrowDrop)`
@@ -60,7 +67,7 @@ const CustomIconArrowDrop = styled(IconArrowDrop)`
 
 const SelectorCustomCreated = ({ value, options, customChange }) => {
   return (
-    <div className="select-created select-created--form-name">
+    <div className="select-created select-created--work-type">
       <CustomFormControl fullWidth>
         <InputLabel id="demo-simple-select-label">
           Выберите тим работы

@@ -4,6 +4,7 @@
   margin: 0 auto;
   border-radius: 6px;
   transition: all .3s ease;
+  border: solid 1px $color-transparent;
 
   &--red {
     background-color: $color-valencia;
@@ -15,6 +16,35 @@
 
   &--white {
     background-color: $color-default-white;
+    border: solid 1px $color-default-black;
+
+    & .MuiFormHelperText-root {
+      color: #d32f2f;
+    }
+
+    .form-created__name {
+      color: $color-default-black;
+    }
+
+    .form-created__add-info {
+      color: $color-default-black;
+    }
+
+    .form-created__add-comment {
+      color: $color-default-black;
+    }
+
+    .form-created__button {
+      border: solid 1px $color-default-black;
+    }
+
+    .form-created__button-text {
+      color: $color-default-black;
+    }
+
+    .form-created__button-icon {
+      color: $color-default-black;
+    }
   }
 
   &__name {
@@ -87,9 +117,17 @@
     text-decoration-line: underline;
     color: $color-default-white;
     cursor: pointer;
+
+    &--open {
+      .form-created__add-comment-icon {
+        transform: rotate(180deg);
+      }
+    }
   }
 
   &__add-comment-icon {
+    transition: transform .3s ease;
+
     svg {
       width: 15px;
       height: 10px;
@@ -106,7 +144,7 @@
     margin: 0 auto;
 
     a {
-      color: rgba(255, 255, 255, 0.7);
+      color: inherit;
       text-decoration: underline;
     }
   }

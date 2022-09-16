@@ -50,11 +50,10 @@ const CustomTextField = styled(TextField)`
     height: auto;
   }
 
-  & .Mui-disabled {
+  & .MuiFilledInput-input.Mui-disabled {
     border-radius: 4px;
     color: #9da5b1;
     background-color: rgba(0, 0, 0, 0.06);
-    border: solid 1px #ced4da;
   }
 
   & .MuiInputBase-root::after,

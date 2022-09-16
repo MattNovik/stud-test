@@ -13,7 +13,7 @@ import CommentField from '../CommentField';
 import { typesData, subjectData } from '../../data/data';
 import { styled } from '@mui/material/styles';
 import { IMaskInput } from 'react-imask';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const CustomTextField = styled(TextField)`
   & .MuiInputBase-root.MuiOutlinedInput-root {
@@ -56,6 +56,7 @@ const CustomTextField = styled(TextField)`
 
   & .Mui-error ~ .MuiFormHelperText-root {
     display: block;
+    color: #ffffff;
   }
 
   & fieldset {
@@ -112,6 +113,20 @@ const CustomAutocomplete = styled(Autocomplete)`
     visibility: visible;
   }
 
+  &
+    .MuiFormLabel-filled
+    ~ .MuiInputBase-root
+    > .MuiOutlinedInput-notchedOutline {
+    border: solid 1px #00ba88;
+  }
+
+  &
+    .MuiFormLabel-filled.Mui-error
+    ~ .MuiInputBase-root
+    > .MuiOutlinedInput-notchedOutline {
+    border: solid 1px #d32f2f;
+  }
+
   & .MuiInputBase-root.Mui-error .icon-error {
     display: block;
   }
@@ -141,7 +156,7 @@ const CustomAutocomplete = styled(Autocomplete)`
   & .icon-close {
     position: absolute;
     top: 50%;
-    right: 14px;
+    right: 16px;
     width: 12px;
     height: 12px;
     margin: -7px 0 0;
@@ -169,7 +184,7 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
       {...other}
       mask="+7 (###) ###-##-##"
       definitions={{
-        '#': /[1-9]|_/,
+        '#': /[0-9]|_/,
       }}
       inputRef={ref}
       onAccept={(value) => {
@@ -254,6 +269,7 @@ const CustomTextFieldForm = styled(TextField)`
 
   & .Mui-error ~ .MuiFormHelperText-root {
     display: block;
+    color: #ffffff;
   }
 
   & fieldset {
@@ -294,21 +310,20 @@ const CustomTextFieldForm = styled(TextField)`
   }
 `;
 
-const phoneRegExp =
-  /^((\+7|7|8).\(([0-9]){3}\).([0-9]){3}.(0-9]{2}.([0-9]{2}})))$/;
+const phoneRegExp = /^((\+7|7)..([0-9]){3}..([0-9]){3}.([0-9]){2}.([0-9]){2})$/;
 
 const validationSchema = yup.object({
   city: yup.string().required(),
   fontSize: yup.string().required(),
   nameProf: yup.string().required(),
   workType: yup.string(),
-  /* .required('Тип работы обязательно') */ subjectType: yup
-    .string()
-    .required(),
+  subjectType: yup.string().required(),
   theme: yup.string().required(),
   email: yup.string().email().required(),
-  telephone:
-    yup.string() /* .matches(phoneRegExp, 'Phone number is not valid') */,
+  telephone: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .required(),
 });
 
 const FormCreated = ({
@@ -320,14 +335,16 @@ const FormCreated = ({
 }) => {
   const formikCreated = useFormik({
     initialValues: {
-      city: cityName || undefined,
+      city: cityName || ' ',
       fontSize: undefined,
-      nameProf: undefined,
-      workType: undefined,
+      nameProf: ' ',
+      workType: '',
       subjectType: subjectName.value || undefined,
       theme: undefined,
       email: undefined,
-      telephone: '+7 (___) ___-__-__',
+      telephone: '+7 (000) 000-00-00',
+      comments: undefined,
+      files: undefined,
     },
     validateOnChange: true,
     validationSchema: validationSchema,
@@ -336,6 +353,8 @@ const FormCreated = ({
     },
   });
 
+  const [addComment, setAddComment] = useState(false);
+
   useEffect(() => {
     formikCreated.setFieldValue('subjectType', subjectName.value);
   }, [subjectName]);
@@ -343,9 +362,16 @@ const FormCreated = ({
   useEffect(() => {
     formikCreated.setFieldValue('city', cityName);
   }, [cityName]);
-
   const customChange = (e) => {
     formikCreated.handleChange(e);
+  };
+
+  const customUploadFiles = (files) => {
+    let newArray = [];
+    files.map((item) => {
+      newArray.push(item.name);
+    });
+    formikCreated.setFieldValue('files', newArray);
   };
 
   return (
@@ -401,7 +427,7 @@ const FormCreated = ({
                   }
                   name="subjectType"
                   helperText="Выберите предмет"
-                  label="Предмет"
+                  label="Предмет*"
                   {...params}
                   InputProps={{
                     ...params.InputProps,
@@ -409,7 +435,6 @@ const FormCreated = ({
                       <>
                         <IconClose
                           onClick={(e) => {
-                            console.log(e.target.tagName);
                             if (
                               e.target.tagName === 'svg' ||
                               e.target.tagName === 'path'
@@ -431,7 +456,7 @@ const FormCreated = ({
           ''
         )}
         <CustomTextFieldForm
-          id="outlined-required"
+          id="theme"
           label="Введите тему работы"
           name="theme"
           value={formikCreated.values.theme}
@@ -444,7 +469,9 @@ const FormCreated = ({
             endAdornment: (
               <>
                 <IconClose
-                  onClick={(e) => console.log(e.target)}
+                  onClick={() => {
+                    formikCreated.setFieldValue('theme', '');
+                  }}
                   className="icon-close"
                 />
                 <IconError className="icon-error" />
@@ -454,8 +481,8 @@ const FormCreated = ({
         />
         {switches.find((item) => item.name === 'name').checked ? (
           <CustomTextFieldForm
-            id="outlined-required"
-            label="Ваше имя"
+            id="nameProf"
+            label="Ваше имя*"
             name="nameProf"
             value={formikCreated.values.nameProf}
             onChange={customChange}
@@ -468,7 +495,9 @@ const FormCreated = ({
               endAdornment: (
                 <>
                   <IconClose
-                    onClick={() => console.log('clear')}
+                    onClick={() => {
+                      formikCreated.setFieldValue('nameProf', '');
+                    }}
                     className="icon-close"
                   />
                   <IconError className="icon-error" />
@@ -480,9 +509,11 @@ const FormCreated = ({
           ''
         )}
         <CustomTextFieldForm
-          id="outlined-required"
-          label="E-mail"
+          id="email"
+          label="E-mail*"
           name="email"
+          type="email"
+          autoComplete={false}
           value={formikCreated.values.email}
           onChange={customChange}
           helperText="Вы не указали Email"
@@ -524,7 +555,7 @@ const FormCreated = ({
                     onClick={() =>
                       formikCreated.setFieldValue(
                         'telephone',
-                        '+7 (___) ___-__-__'
+                        '+7 (000) 000-00-00'
                       )
                     }
                     className="icon-close"
@@ -553,7 +584,9 @@ const FormCreated = ({
               endAdornment: (
                 <>
                   <IconClose
-                    onClick={() => console.log('clear')}
+                    onClick={() => {
+                      formikCreated.setFieldValue('city', '');
+                    }}
                     className="icon-close"
                   />
                   <IconError className="icon-error" />
@@ -567,7 +600,7 @@ const FormCreated = ({
         {switches.find((item) => item.name === 'font').checked ? (
           <CustomTextFieldForm
             id="outlined-required"
-            label="Размер шрифта"
+            label="Размер шрифта*"
             name="fontSize"
             value={formikCreated.values.fontSize}
             onChange={customChange}
@@ -580,7 +613,9 @@ const FormCreated = ({
               endAdornment: (
                 <>
                   <IconClose
-                    onClick={() => console.log('clear')}
+                    onClick={() => {
+                      formikCreated.setFieldValue('fontSize', '');
+                    }}
                     className="icon-close"
                   />
                   <IconError className="icon-error" />
@@ -592,7 +627,16 @@ const FormCreated = ({
           ''
         )}
       </div>
-      <button type="button" className="form-created__add-comment">
+      <button
+        type="button"
+        className={
+          addComment ||
+          switches.find((item) => item.name === 'commFile').checked
+            ? 'form-created__add-comment form-created__add-comment--open'
+            : 'form-created__add-comment'
+        }
+        onClick={(e) => setAddComment(!addComment)}
+      >
         <span className="form-created__add-comment-text">
           Добавить комментарий и файлы
         </span>
@@ -600,8 +644,14 @@ const FormCreated = ({
           <IconArrowDrop />
         </span>
       </button>
-      {switches.find((item) => item.name === 'commFile').checked ? (
-        <CommentField />
+      {addComment ||
+      switches.find((item) => item.name === 'commFile').checked ? (
+        <CommentField
+          value={formikCreated.values.comments}
+          customChange={customChange}
+          files={formikCreated.values.files}
+          customUploadFiles={customUploadFiles}
+        />
       ) : (
         ''
       )}
