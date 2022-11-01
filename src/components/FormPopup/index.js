@@ -17,6 +17,7 @@ import {
   switchesData,
   colorsTypes,
 } from '../../data/data';
+import { nanoid } from 'nanoid';
 
 const FormPopup = () => {
   const [color, setColor] = useState('red');
@@ -36,7 +37,7 @@ const FormPopup = () => {
   });
   const [cityName, setCityName] = useState('Введите название города');
   const [buttonName, setButtonName] = useState(defaultButtonText[0].label);
-
+  const [resultCode, setResultCode] = useState('');
   const [switches, setSwitches] = useState(
     switchesData.map((item) => {
       let newObj = {};
@@ -58,7 +59,7 @@ const FormPopup = () => {
       city: cityName,
     },
     onSubmit: (values) => {
-      console.log(values);
+      alert(JSON.stringify(values));
     },
   });
 
@@ -86,9 +87,10 @@ const FormPopup = () => {
   };
 
   const buttonTextChange = (e) => {
-    setButtonName(e.target.innerHTML);
+    setButtonName('');
     formik.handleChange(e);
   };
+
   const typOfWorkChange = (e) => {
     setWorkType({ value: e.target.innerHTML, label: e.target.innerHTML });
     formik.handleChange(e);
@@ -184,6 +186,32 @@ const FormPopup = () => {
           workType={workType}
         />
       </div>
+      <button
+        type="button"
+        className="check-code"
+        onClick={() => {
+          let id = nanoid();
+          let resultCode = `${
+            '<iframe src="http://localhost:3000?' +
+            id +
+            '" style="border: none;" height="500px" width="100%" ></iframe>'
+          }`;
+          setResultCode(resultCode);
+          formik.handleSubmit();
+          /*           console.log(document.querySelector('.form-created').innerHTML);
+          const div = document.createElement('div');
+          div.append(document.querySelector('.form-created').innerHTML);
+          document.querySelector('.form-popup__code').value =
+            document.querySelector('.form-created').innerHTML; */
+        }}
+      >
+        Trigger me
+      </button>
+      <pre>{resultCode}</pre>
+      <textarea
+        defaultValue={resultCode}
+        className="form-popup__result-code"
+      ></textarea>
     </div>
   );
 };

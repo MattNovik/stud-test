@@ -55,6 +55,17 @@ const CustomAutocomplete = styled(Autocomplete)`
     height: 18px;
     width: 18px;
   }
+
+  & fieldset {
+    border: solid 1px rgba(0, 0, 0, 0.23);
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease;
+  }
+
+  &:hover {
+    & fieldset {
+    }
+  }
 `;
 
 const TextFieldAutocomplete = ({

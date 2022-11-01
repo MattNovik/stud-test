@@ -14,14 +14,12 @@ const CustomTextField = styled(TextField)`
     }
 
     & .MuiFilledInput-input.Mui-disabled {
-      border: solid 1px transparent;
+      border: solid 1px #000;
     }
   }
 
   & .MuiInputBase-root {
     background-color: transparent;
-    border: solid 1px rgba(0, 0, 0, 0.23);
-    border-radius: 4px;
   }
 
   & .MuiInputBase-input {
@@ -31,8 +29,11 @@ const CustomTextField = styled(TextField)`
     font-size: 14px;
     line-height: 150%;
     color: #303c54;
-    border: solid 1px transparent;
+    border: solid 1px rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
     height: auto;
+    transition: border-color 0.3s ease, color 0.3s ease,
+      background-color 0.3s ease;
   }
 
   & .MuiFilledInput-input.Mui-disabled {

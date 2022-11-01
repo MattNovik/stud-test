@@ -34,6 +34,8 @@ const CustomSelect = styled(Select)`
     top: 0;
     padding: 0;
     border: solid 1px #f1f3f8;
+    transition: color 0.3s ease, background-color 0.3s ease,
+      border-color 0.3s ease;
   }
 `;
 
@@ -42,6 +44,7 @@ const CustomFormControl = styled(FormControl)`
   & .MuiFormLabel-filled {
     color: #383838;
     transform: translate(22px, 4px) scale(0.75);
+    line-height: 17px;
   }
 
   & .MuiInputBase-root.Mui-focused {

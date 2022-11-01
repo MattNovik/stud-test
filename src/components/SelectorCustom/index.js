@@ -27,6 +27,8 @@ const CustomSelect = styled(Select)`
 
   & fieldset {
     top: 0;
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease;
   }
 `;
 
@@ -37,25 +39,32 @@ const CustomTextField = styled(TextField)`
     & .MuiInputBase-input {
       border: solid 1px #000;
     }
+
+    & .MuiInputBase-root {
+      background-color: transparent;
+    }
   }
 
   & .MuiInputBase-root {
     position: relative;
     background-color: transparent;
-    border: solid 1px rgba(0, 0, 0, 0.23);
-    border-radius: 4px;
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   & .MuiInputBase-input,
   & .MuiInputBase-input.Mui-focused {
+    border: solid 1px rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
     padding: 6px 12px;
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
     line-height: 150%;
     color: #303c54;
-    border: solid 1px transparent;
     height: auto;
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   & .MuiInputBase-root.Mui-disabled {

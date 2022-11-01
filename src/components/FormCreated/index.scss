@@ -1,9 +1,10 @@
 .form-created {
   min-width: 486px;
+  max-width: 600px;
   padding: 46px 54px;
   margin: 0 auto;
   border-radius: 6px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   border: solid 1px $color-transparent;
 
   &--red {
@@ -87,14 +88,14 @@
     line-height: 23px;
     color: $color-default-white;
   }
-  
+
   &__button-icon {
     color: $color-default-white;
     transform: rotate(-90deg);
 
     svg {
       width: 16px;
-      height: 12px; 
+      height: 12px;
     }
   }
 
@@ -126,7 +127,7 @@
   }
 
   &__add-comment-icon {
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
 
     svg {
       width: 15px;

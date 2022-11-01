@@ -1,5 +1,8 @@
 body {
+  overflow-x: hidden;
   margin: 0;
+  /*   margin-right: calc(-1 * (100vw - 100%));
+  padding-right: 0 !important; */ //добавлено что бы избежать сдвига вправо от wrapper MUI
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -13,6 +16,5 @@ code {
 }
 
 html {
-  overflow-x: hidden;
-  margin-right: calc(-1 * (100vw - 100%));
+  //margin-right: calc(-1 * (100vw - 100%));
 }

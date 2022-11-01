@@ -9,6 +9,8 @@ const CustomTextField = styled(TextField)`
     max-height: 50px;
     padding: 14px 22px 16px;
     background-color: #f1f3f8;
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   & label {
@@ -31,6 +33,8 @@ const CustomTextField = styled(TextField)`
     line-height: 23px;
     color: #000000;
     background-color: transparent;
+    transition: border-color 0.3s ease, background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   & fieldset {

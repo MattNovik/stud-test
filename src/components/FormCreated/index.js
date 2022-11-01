@@ -6,7 +6,6 @@ import { ReactComponent as IconClose } from '../../img/close.svg';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import Autocomplete from '@mui/material/Autocomplete';
-import SearchAutocomplete from '../SearchAutocomplete';
 import TextField from '@mui/material/TextField';
 import SelectorCustomCreated from '../SelectorCustomCreated';
 import CommentField from '../CommentField';
@@ -63,6 +62,8 @@ const CustomTextField = styled(TextField)`
     top: 0;
     padding: 0;
     border: solid 1px #f1f3f8;
+    transition: color 0.3s ease, background-color 0.3s ease,
+      border-color 0.3s ease;
   }
 
   & .MuiInputBase-root.Mui-focused {
@@ -191,6 +192,7 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
         onChange(value);
       }}
       overwrite
+      placeholder="q"
     />
   );
 });
@@ -281,6 +283,8 @@ const CustomTextFieldForm = styled(TextField)`
     top: 0;
     padding: 0;
     border: solid 1px #f1f3f8;
+    transition: color 0.3s ease, background-color 0.3s ease,
+      border-color 0.3s ease;
   }
 
   & .MuiInputBase-root.Mui-focused {
@@ -327,17 +331,15 @@ const CustomTextFieldForm = styled(TextField)`
 const phoneRegExp = /^((\+7|7)..([0-9]){3}..([0-9]){3}.([0-9]){2}.([0-9]){2})$/;
 
 const validationSchema = yup.object({
-  city: yup.string().required(),
-  fontSize: yup.string().required(),
-  nameProf: yup.string().required(),
+  city: yup.string() /* .required() */,
+  fontSize: yup.string() /* .required() */,
+  nameProf: yup.string() /* .required() */,
   workType: yup.string(),
-  subjectType: yup.string().required(),
-  theme: yup.string().required(),
-  email: yup.string().email().required(),
-  telephone: yup
-    .string()
-    .matches(phoneRegExp, 'Phone number is not valid')
-    .required(),
+  subjectType: yup.string() /* .required() */,
+  theme: yup.string() /* .required() */,
+  email: yup.string().email() /* .required() */,
+  telephone: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  /* .required() */
 });
 
 const FormCreated = ({
@@ -350,25 +352,30 @@ const FormCreated = ({
   workType,
 }) => {
   const [newNameChecked, setNameChecked] = useState(
-    switches.find((item) => item.name === 'name').checked
+    switches ? switches.find((item) => item.name === 'name').checked : false
   );
   const [cityChecked, setCityChecked] = useState(
-    switches.find((item) => item.name === 'city').checked
+    switches ? switches.find((item) => item.name === 'city').checked : false
   );
 
   const [addComment, setAddComment] = useState(false);
 
   useEffect(() => {
-    formikCreated.setFieldValue('subjectType', subjectName.value);
+    formikCreated.setFieldValue(
+      'subjectType',
+      subjectName ? subjectName.value : ''
+    );
   }, [subjectName]);
 
   useEffect(() => {
-    console.log(workType);
-    formikCreated.setFieldValue('workType', workType.value);
+    formikCreated.setFieldValue(
+      'workType',
+      workType && workType.value !== undefined ? workType.value : ''
+    );
   }, [workType]);
 
   useEffect(() => {
-    formikCreated.setFieldValue('city', cityName);
+    formikCreated.setFieldValue('city', cityName ? cityName : '');
   }, [cityName]);
 
   const customChange = (e) => {
@@ -377,35 +384,38 @@ const FormCreated = ({
 
   const formikCreated = useFormik({
     initialValues: {
-      city: cityName ? ' ' : undefined,
-      fontSize: newNameChecked ? ' ' : undefined,
-      nameProf: undefined,
-      workType: workType.value || '',
-      subjectType: subjectName.value || undefined,
-      theme: undefined,
-      email: undefined,
-      telephone: '+7 (000) 000-00-00',
-      comments: undefined,
+      city: cityName ? '' : '',
+      fontSize: newNameChecked ? '' : '',
+      nameProf: '',
+      workType: workType && workType.value !== undefined ? workType.value : '',
+      subjectType: subjectName ? subjectName.value : '',
+      theme: '',
+      email: '',
+      telephone: '+7 (___) ___-__-__',
+      comments: '',
       files: undefined,
     },
     validateOnChange: true,
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      window.open('https://studservis.ru/', '_blank');
       alert(JSON.stringify(values, null, 2));
     },
   });
 
   useEffect(() => {
-    if (switches.find((item) => item.name === 'name').checked) {
+    if (switches && switches.find((item) => item.name === 'name').checked) {
       setNameChecked(true);
     } else if (
+      switches &&
       switches.find((item) => item.name === 'name').checked === false
     ) {
       setNameChecked(false);
     }
-    if (switches.find((item) => item.name === 'city').checked) {
+    if (switches && switches.find((item) => item.name === 'city').checked) {
       setCityChecked(true);
     } else if (
+      switches &&
       switches.find((item) => item.name === 'city').checked === false
     ) {
       setCityChecked(false);
@@ -416,7 +426,7 @@ const FormCreated = ({
     if (newNameChecked) {
       formikCreated.setFieldValue('nameProf', '');
     } else if (newNameChecked === false) {
-      formikCreated.setFieldValue('nameProf', ' ');
+      formikCreated.setFieldValue('nameProf', '');
     }
   }, [newNameChecked]);
 
@@ -439,9 +449,15 @@ const FormCreated = ({
   return (
     <form
       onSubmit={formikCreated.handleSubmit}
-      className={'form-created form-created--' + color}
+      className={
+        color
+          ? 'form-created form-created--' + color
+          : 'form-created form-created--red'
+      }
     >
-      <p className="form-created__name">{realFormName}</p>
+      <p className="form-created__name">
+        {realFormName ? realFormName : 'Рассчитайте цену консультации:'}
+      </p>
       <div className="form-created__wrapper">
         <SelectorCustomCreated
           labelText="Выберите текст работы"
@@ -459,7 +475,8 @@ const FormCreated = ({
           customChange={customChangeSearch}
           error={errorSearch}
         /> */}
-        {switches.find((item) => item.name === 'subject').checked ? (
+        {switches &&
+        switches.find((item) => item.name === 'subject').checked ? (
           <div
             className={
               'textfield-autocomplete-search textfield-autocomplete-search--subject-type-text'
@@ -469,6 +486,7 @@ const FormCreated = ({
               disablePortal
               value={formikCreated.values.subjectType}
               options={subjectData}
+              freeSolo={true}
               popupIcon={<></>}
               onChange={(e) => {
                 if (e.target.tagName === 'svg' || e.target.tagName === 'path') {
@@ -541,7 +559,7 @@ const FormCreated = ({
             ),
           }}
         />
-        {switches.find((item) => item.name === 'name').checked ? (
+        {switches && switches.find((item) => item.name === 'name').checked ? (
           <CustomTextFieldForm
             id="nameProf"
             label="Ваше имя*"
@@ -597,7 +615,7 @@ const FormCreated = ({
             ),
           }}
         />
-        {switches.find((item) => item.name === 'tel').checked ? (
+        {switches && switches.find((item) => item.name === 'tel').checked ? (
           <CustomTextFieldForm
             id="telephone"
             label="Номер телефона"
@@ -632,7 +650,7 @@ const FormCreated = ({
         ) : (
           ''
         )}
-        {switches.find((item) => item.name === 'city').checked ? (
+        {switches && switches.find((item) => item.name === 'city').checked ? (
           <CustomTextFieldForm
             id="city"
             label="Город"
@@ -660,7 +678,7 @@ const FormCreated = ({
         ) : (
           ''
         )}
-        {switches.find((item) => item.name === 'font').checked ? (
+        {switches && switches.find((item) => item.name === 'font').checked ? (
           <CustomTextFieldForm
             id="fontSize"
             label="Размер шрифта*"
@@ -694,7 +712,8 @@ const FormCreated = ({
         type="button"
         className={
           addComment ||
-          switches.find((item) => item.name === 'commFile').checked
+          (switches &&
+            switches.find((item) => item.name === 'commFile').checked)
             ? 'form-created__add-comment form-created__add-comment--open'
             : 'form-created__add-comment'
         }
@@ -708,7 +727,8 @@ const FormCreated = ({
         </span>
       </button>
       {addComment ||
-      switches.find((item) => item.name === 'commFile').checked ? (
+      (switches &&
+        switches.find((item) => item.name === 'commFile').checked) ? (
         <CommentField
           value={formikCreated.values.comments}
           customChange={customChange}
@@ -719,7 +739,9 @@ const FormCreated = ({
         ''
       )}
       <button type="submit" className="form-created__button">
-        <span className="form-created__button-text">{buttonName}</span>
+        <span className="form-created__button-text">
+          {buttonName ? buttonName : 'Узнать стоимость'}
+        </span>
         <span className="form-created__button-icon">
           <IconArrowDrop />
         </span>
