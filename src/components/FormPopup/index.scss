@@ -8,7 +8,7 @@
   //left: 50%;
   //transform: translate(-50%, 0);
   box-sizing: border-box;
-  border: solid 1px $color-default-black;
+  border: solid 1px #000;
 
   &__code {
     display: flex;
@@ -39,14 +39,14 @@
       left: 0;
       width: 100%;
       height: 1px;
-      background-color: $color-pattens-blue;
+      background-color: #dee2e6;
     }
 
     p {
       text-align: start;
       margin: 0;
-      font-family: $ff-inter;
-      color: $color-biscay;
+      font-family: 'Inter', 'Arial', sans-serif;
+      color: #303c54;
       font-weight: 700;
       font-size: 20px;
       line-height: 120%;
@@ -57,7 +57,7 @@
     position: absolute;
     top: 20px;
     right: 16px;
-    color: $color-biscay;
+    color: #303c54;
     width: 16px;
     height: 16px;
   }
@@ -83,11 +83,11 @@
 
   &__name {
     text-align: left;
-    font-family: $ff-inter;
+    font-family: 'Inter', 'Arial', sans-serif;
     font-weight: 700;
     font-size: 16px;
     line-height: 150%;
-    color: $color-biscay;
+    color: #303c54;
     margin: 0 0 30px;
   }
 }

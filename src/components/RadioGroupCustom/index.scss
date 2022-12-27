@@ -2,17 +2,17 @@
   width: 100%;
   display: flex;
   column-gap: 24px;
-  
+
   & label {
     position: static;
     top: auto;
     left: auto;
-    font-family: $ff-inter;
+    font-family: 'Inter', 'Arial', sans-serif;
     font-weight: 400;
     font-size: 12px;
     line-height: 15px;
     text-transform: uppercase;
-    color: $color-mischka;
+    color: #9da5b1;
     transform: none;
   }
 }

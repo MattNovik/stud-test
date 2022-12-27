@@ -12,7 +12,7 @@
     width: 9px;
     height: 18px;
     padding: 0;
-    color: $color-default-black;
+    color: #000;
     cursor: pointer;
   }
 
@@ -27,7 +27,6 @@
   }
 
   &__loaded-files {
-
   }
 
   &__loaded-list {
@@ -43,11 +42,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: $ff-source-sans-pro;
+    font-family: 'SourceSansPro', 'Arial', sans-serif;
     font-weight: 400;
     font-size: 12px;
     line-height: 15px;
-    color: $color-default-white;
+    color: #fff;
   }
 
   &__icon-close {

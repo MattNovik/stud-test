@@ -5,15 +5,15 @@
     position: static;
     transform: none;
     text-align: left;
-    font-family: $ff-inter;
+    font-family: 'Inter', 'Arial', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 150%;
-    color: $color-biscay;
+    color: #303c54;
     margin: 0 0 8px;
   }
-  
+
   & fieldset {
     padding: 0;
     top: 0;

@@ -5,56 +5,56 @@
   margin: 0 auto;
   border-radius: 6px;
   transition: all 0.3s ease;
-  border: solid 1px $color-transparent;
+  border: solid 1px transparent;
 
   &--red {
-    background-color: $color-valencia;
+    background-color: #d24848;
   }
 
   &--blue {
-    background-color: $color-dodger-blue;
+    background-color: #0d6efd;
   }
 
   &--white {
-    background-color: $color-default-white;
-    border: solid 1px $color-default-black;
+    background-color: #fff;
+    border: solid 1px #000;
 
     & .MuiFormHelperText-root {
       color: #d32f2f;
     }
 
     .form-created__name {
-      color: $color-default-black;
+      color: #000;
     }
 
     .form-created__add-info {
-      color: $color-default-black;
+      color: #000;
     }
 
     .form-created__add-comment {
-      color: $color-default-black;
+      color: #000;
     }
 
     .form-created__button {
-      border: solid 1px $color-default-black;
+      border: solid 1px #000;
     }
 
     .form-created__button-text {
-      color: $color-default-black;
+      color: #000;
     }
 
     .form-created__button-icon {
-      color: $color-default-black;
+      color: #000;
     }
   }
 
   &__name {
     text-align: center;
-    font-family: $ff-futura;
+    font-family: 'Futura', 'Arial', sans-serif;
     font-weight: 700;
     font-size: 36px;
     line-height: 40px;
-    color: $color-default-white;
+    color: #fff;
     margin: 0 0 36px;
   }
 
@@ -74,23 +74,23 @@
     column-gap: 9px;
     min-width: 281px;
     padding: 18px 30px;
-    background: $color-transparent;
-    border: 1px solid $color-default-white;
+    background: transparent;
+    border: 1px solid #fff;
     border-radius: 6px;
     margin: 0 auto 16px;
     cursor: pointer;
   }
 
   &__button-text {
-    font-family: $ff-source-sans-pro;
+    font-family: 'SourceSansPro', 'Arial', sans-serif;
     font-weight: 400;
     font-size: 18px;
     line-height: 23px;
-    color: $color-default-white;
+    color: #fff;
   }
 
   &__button-icon {
-    color: $color-default-white;
+    color: #fff;
     transform: rotate(-90deg);
 
     svg {
@@ -106,17 +106,17 @@
     justify-content: center;
     column-gap: 4px;
     margin: 0 auto 25px;
-    background-color: $color-transparent;
+    background-color: transparent;
     padding: 0;
     border: none;
     outline: none;
-    font-family: $ff-source-sans-pro;
+    font-family: 'SourceSansPro', 'Arial', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
     text-decoration-line: underline;
-    color: $color-default-white;
+    color: #fff;
     cursor: pointer;
 
     &--open {
@@ -137,7 +137,7 @@
 
   &__add-info {
     max-width: 438px;
-    font-family: $ff-source-sans-pro;
+    font-family: 'SourceSansPro', 'Arial', sans-serif;
     font-weight: 400;
     font-size: 10px;
     line-height: 13px;
