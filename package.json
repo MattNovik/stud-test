@@ -23,7 +23,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "build:test": "parcel build src/index.js --no-source-maps -d docs",
+    "build:test": "parcel build src/index.js -d docs",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
